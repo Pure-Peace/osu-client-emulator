@@ -1,5 +1,5 @@
 import * as constants from './constants.js';
-import * as requests from './requests.js';
+import { BanchoClient } from './bancho.js';
 import * as utils from './utils.js';
 
-export { constants, requests, utils }
+export { constants, BanchoClient, utils }

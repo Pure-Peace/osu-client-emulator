@@ -1,7 +1,8 @@
-import { osuSession } from '../src/requests.js'
+import { BanchoClient } from '../src/bancho.js'
 
 async function main() {
-  await osuSession(process.env.USERNAME, process.env.PASSWORD_HASH);
+  const client = new BanchoClient(process.env.USERNAME!, process.env.PASSWORD_HASH!)
+  await client.osuSession();
 }
 
 main()
