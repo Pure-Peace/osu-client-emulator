@@ -1,5 +1,3 @@
-export const BASE_URI = "https://localhost";
-
 export const OSU_HEADERS = {
   "User-Agent": "osu!",
   "Accept-Encoding": "gzip, deflate",

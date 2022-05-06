@@ -2,7 +2,7 @@ import https from "node:https";
 import HttpProxyAgent from "http-proxy-agent";
 
 import "dotenv/config";
-import { OSU_HEADERS, MULTIPART_BONDARY, BASE_URI, CRLF, CONTENT_TYPE_FORM_DATA } from "./constants.js";
+import { OSU_HEADERS, MULTIPART_BONDARY, CRLF, CONTENT_TYPE_FORM_DATA } from "./constants.js";
 
 export function agent() {
   if (process.env.FIDDLER_PROXY) {
@@ -29,10 +29,6 @@ export function headers({ isMultipart } = { isMultipart: false }) {
     };
   }
   return OSU_HEADERS;
-}
-
-export function osuWeb(path: string) {
-  return `${BASE_URI}/web/${path}`;
 }
 
 export class OsuMultipart {
@@ -68,3 +64,38 @@ export class OsuMultipart {
   }
 }
 
+const UNITS: [number, string][] = [[1000000000, 's'], [1000000, 'ms'], [1000, 'us'], [0, 's']]
+
+export class Instant {
+  start: bigint;
+  end: bigint = BigInt(0);
+
+  constructor(start: bigint) {
+    this.start = start
+  }
+
+  static now() {
+    return new Instant(process.hrtime.bigint())
+  }
+
+  elapsed() {
+    this.end = process.hrtime.bigint();
+    return this;
+  }
+
+  get duration() {
+    return this.end - this.start;
+  }
+
+  get digit() {
+    return this.duration;
+  }
+
+  get human() {
+    for (const [u, un] of UNITS) {
+      if (this.duration >= u) {
+        return `${this.duration / BigInt(u)}${un}`
+      }
+    }
+  }
+}
