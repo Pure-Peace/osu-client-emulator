@@ -99,3 +99,32 @@ export class Instant {
     }
   }
 }
+
+export type Dict = { [key: string]: string | number }
+
+export class Query {
+  private inner: string;
+
+  constructor(dict: Dict) {
+    this.inner = "";
+    this.addDict(dict)
+  }
+
+  add(key: string, value: string | number) {
+    this.inner += `${this.inner.endsWith('&') ? '' : '&'}${key}=${value}`
+    return this
+  }
+
+  addDict(dict: Dict) {
+    Object.entries(dict).forEach(([k, v]) => this.add(k, v))
+    return this
+  }
+
+  get val() {
+    return this.inner ?? ''
+  }
+}
+
+export function lazyConstruct<T extends object>(constructor: any, val: any): T {
+  return (val instanceof constructor) ? val : new constructor(val)
+}

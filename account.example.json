@@ -1,0 +1,15 @@
+{
+    "username": "",
+    "password_md5": "",
+    "client_version": "b20220424",
+    "client_path_md5": "",
+    "mac": "",
+    "mac_md5": "",
+    "uninstall_md5": "",
+    "disk_md5": "",
+    "donet_env": [
+        "dotnet4",
+        "dotnet4",
+        "dotnet4"
+    ]
+}

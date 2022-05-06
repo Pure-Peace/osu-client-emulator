@@ -2,8 +2,12 @@ import { BanchoClient } from '../src/bancho.js'
 import { agent } from '../src/utils.js';
 
 async function main() {
-  const client = new BanchoClient({ uri: 'http://localhost', username: process.env.USERNAME!, password: process.env.PASSWORD_HASH! }, { agent: agent() })
-  await client.osuSession();
+  const client = new BanchoClient({
+    uri: 'http://localhost',
+    cfg: process.env.ACCOUNT_CONFIG!
+  }, { agent: agent() })
+  // await client.osuSession();
+  await client.banchoConnect();
 }
 
 main()
