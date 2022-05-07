@@ -99,15 +99,15 @@ export class BaseClient {
 
 export class BanchoClient extends BaseClient {
     async osuSession(action = "check") {
-        return await this.fetchOsuWeb({ path: "osu-session.php" }, {
+        return await this.fetchOsuWeb({
+            path: "osu-session.php"
+        }, {
             method: "POST",
-            body: new OsuMultipart()
-                .addDict({
-                    'name="u"': this.cfg.username,
-                    'name="h"': this.cfg.password,
-                    'name="action"': action,
-                })
-                .build(),
+            body: new OsuMultipart({
+                'name="u"': this.cfg.username,
+                'name="h"': this.cfg.password,
+                'name="action"': action,
+            }).val,
             headers: headers({ isMultipart: true }),
             agent: this.agent,
         });
@@ -126,7 +126,21 @@ export class BanchoClient extends BaseClient {
             })
         }, {
             method: "GET",
-            headers: headers({ isMultipart: true }),
+            headers: headers(),
+            agent: this.agent,
+        });
+    }
+
+    async getFriends() {
+        return await this.fetchOsuWeb({
+            path: "osu-getfriends.php",
+            query: new Query({
+                u: this.cfg.username,
+                h: this.cfg.password
+            })
+        }, {
+            method: "GET",
+            headers: headers(),
             agent: this.agent,
         });
     }

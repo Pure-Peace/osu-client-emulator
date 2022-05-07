@@ -32,13 +32,14 @@ export function headers({ isMultipart } = { isMultipart: false }) {
 }
 
 export class OsuMultipart {
-  inner: string;
+  private inner: string;
 
-  constructor() {
+  constructor(dict: Dict) {
     this.inner = "";
+    this.addDict(dict)
   }
 
-  add(key: string, value: string) {
+  add(key: string, value: string | number) {
     this.inner = this.inner.concat(
       MULTIPART_BONDARY,
       CRLF,
@@ -46,20 +47,20 @@ export class OsuMultipart {
       key,
       CRLF,
       CRLF,
-      value,
+      value.toString(),
       CRLF
     );
     return this;
   }
 
-  addDict(dict: { [key: string]: string }) {
+  addDict(dict: Dict) {
     for (const key in dict) {
       this.add(key, dict[key]);
     }
     return this;
   }
 
-  build() {
+  get val() {
     return this.inner.concat(MULTIPART_BONDARY, "--", CRLF);
   }
 }
